@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roman & Vane — Wedding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Password gate -->
+  <section id="gate" class="gate">
+    <div class="lights lights--gate"></div>
+    <div class="gate-content gate-content--glass">
+      <div class="gate-flourish"></div>
+      <h1 class="gate-title">Roman & Vane</h1>
+      <p class="gate-subtitle">You're invited</p>
+      <form id="login-form" class="login-form" autocomplete="off">
+        <input type="password" id="password" placeholder="Enter password" autocomplete="off" required />
+        <button type="submit">Enter</button>
+      </form>
+      <p id="gate-error" class="gate-error" aria-live="polite"></p>
+    </div>
+    <div class="gate-bg"></div>
+  </section>
+
+  <!-- Main: 3 full-page panels -->
+  <main id="main" class="main hidden">
+    <div class="panels">
+      <!-- Panel 1: Intro -->
+      <section id="panel-intro" class="panel panel--intro">
+        <div class="lights lights--panel"></div>
+        <div class="panel-bg"></div>
+        <div class="panel-content panel-content--glass">
+          <div class="hero-flourish"></div>
+          <h1 class="hero-names">Roman & Vane</h1>
+          <p class="hero-tagline">We're getting married</p>
+          <p class="intro-text">We're so excited to celebrate our marriage with you. Join us for our wedding in Guadalajara.</p>
+          <div class="intro-details">
+            <div class="detail-card detail-card--glass">
+              <span class="detail-label">When</span>
+              <p class="detail-value">June 5<sup>th</sup></p>
+            </div>
+            <div class="detail-card detail-card--glass">
+              <span class="detail-label">Where</span>
+              <p class="detail-value">Guadalajara</p>
+            </div>
+          </div>
+          <p class="scroll-hint">Scroll to see our moments</p>
+        </div>
+      </section>
+
+      <!-- Panel 2: Our moments (larger) -->
+      <section id="panel-moments" class="panel panel--moments">
+        <div class="lights lights--moments"></div>
+        <div class="panel-bg panel-bg--moments"></div>
+        <div class="panel-content panel-content--wide">
+          <div class="section-flourish"></div>
+          <h2 class="panel-title">Our moments</h2>
+          <div class="gallery-glass">
+            <div class="slider">
+              <div class="slider-track">
+                <img class="slider-slide active" src="" alt="Wedding moment" />
+              </div>
+            </div>
+            <div class="slider-controls">
+              <button type="button" class="slider-btn slider-btn--prev" aria-label="Previous photo">‹</button>
+              <span class="slider-counter"><span id="slide-current">1</span> / <span id="slide-total">1</span></span>
+              <button type="button" class="slider-btn slider-btn--next" aria-label="Next photo">›</button>
+            </div>
+          </div>
+          <p class="scroll-hint">Scroll to RSVP</p>
+        </div>
+      </section>
+
+      <!-- Panel 3: RSVP -->
+      <section id="panel-rsvp" class="panel panel--rsvp">
+        <div class="lights lights--rsvp"></div>
+        <div class="panel-bg"></div>
+        <div class="panel-content panel-content--glass panel-content--rsvp">
+          <div class="section-flourish"></div>
+          <h2 class="panel-title">RSVP</h2>
+          <p class="rsvp-intro">Enter your invite code and the names of everyone in your party.</p>
+          <form id="rsvp-form" class="rsvp-form">
+            <div class="form-group">
+              <label for="rsvp-code">Invite code <span class="label-hint">(8 digits)</span></label>
+              <input type="text" id="rsvp-code" name="code" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" placeholder="00000000" autocomplete="off" required />
+            </div>
+            <div class="form-group">
+              <label>Guest names</label>
+              <div id="guest-names" class="guest-names">
+                <input type="text" name="guest[]" placeholder="Full name" class="guest-input" />
+              </div>
+              <button type="button" id="add-guest" class="btn-add-guest">+ Add another guest</button>
+            </div>
+            <button type="submit" class="btn-submit" id="rsvp-submit">Send RSVP</button>
+            <p id="rsvp-message" class="rsvp-message" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

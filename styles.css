@@ -1,0 +1,609 @@
+/* Roman & Vane — Wedding | 3-panel scroll, glass, lights */
+
+:root {
+  --black: #0d0d0d;
+  --black-soft: #1a1a1a;
+  --dark-green: #1a2f1a;
+  --dark-green-mid: #243d24;
+  --dark-green-light: #2d4a2d;
+  --accent-green: #3d5c3d;
+  --white: #fafaf9;
+  --white-soft: #e8e6e3;
+  --lily: #f5f5f0;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --glass-bg: rgba(13, 13, 13, 0.5);
+  --glass-border: rgba(61, 92, 61, 0.35);
+  --glass-highlight: rgba(245, 245, 240, 0.06);
+  --glow-green: rgba(61, 92, 61, 0.4);
+  --glow-lily: rgba(245, 245, 240, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  color: var(--white);
+  background: var(--black);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* —— Gate —— */
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+}
+
+.gate-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 20%, var(--dark-green) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 80%, var(--dark-green-mid) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lights::before,
+.lights::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+
+.lights--gate::before {
+  width: 280px;
+  height: 280px;
+  background: var(--glow-green);
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: float 8s ease-in-out infinite;
+}
+
+.lights--gate::after {
+  width: 180px;
+  height: 180px;
+  background: var(--glow-lily);
+  bottom: 20%;
+  right: 15%;
+  animation: float 6s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.65; }
+}
+
+.gate-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+  max-width: 360px;
+}
+
+.gate-content--glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 var(--glass-highlight);
+  padding: 2.5rem 2rem;
+}
+
+.gate-flourish {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+  margin: 0 auto 1.5rem;
+}
+
+.gate-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 500;
+  color: var(--lily);
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.gate-subtitle {
+  font-size: 0.95rem;
+  color: var(--white-soft);
+  opacity: 0.9;
+  margin: 0 0 2rem;
+  font-weight: 400;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-form input {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  color: var(--white);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-form input::placeholder {
+  color: var(--white-soft);
+  opacity: 0.6;
+}
+
+.login-form input:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 2px rgba(61, 92, 61, 0.25);
+}
+
+.login-form button {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.85rem 1.5rem;
+  background: var(--dark-green-mid);
+  color: var(--lily);
+  border: 1px solid var(--accent-green);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.login-form button:hover {
+  background: var(--accent-green);
+  color: var(--black);
+  box-shadow: 0 0 24px var(--glow-green);
+}
+
+.gate-error {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: #c75a5a;
+  min-height: 1.4em;
+}
+
+/* —— Main: 3 panels, scroll snap —— */
+.main {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.panels {
+  display: flex;
+  flex-direction: column;
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.panel {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.panel--moments {
+  min-height: 100vh;
+}
+
+.panel-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 30%, var(--dark-green) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 70%, var(--dark-green-mid) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.panel-bg--moments {
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 40%, var(--dark-green) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 50% 80%, var(--dark-green-mid) 0%, transparent 45%);
+}
+
+.panel-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 560px;
+  width: 100%;
+}
+
+.panel-content--glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--glass-highlight);
+}
+
+.panel-content--wide {
+  max-width: 800px;
+}
+
+.panel-content--rsvp {
+  max-width: 440px;
+  text-align: left;
+}
+
+.lights--panel::before {
+  width: 320px;
+  height: 320px;
+  background: var(--glow-green);
+  top: 15%;
+  left: 50%;
+  margin-left: -160px;
+  animation: float 10s ease-in-out infinite;
+}
+
+.lights--panel::after {
+  width: 200px;
+  height: 200px;
+  background: var(--glow-lily);
+  bottom: 20%;
+  right: 10%;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.lights--moments::before {
+  width: 350px;
+  height: 350px;
+  background: var(--glow-green);
+  top: 10%;
+  right: 5%;
+  animation: float 12s ease-in-out infinite;
+}
+
+.lights--moments::after {
+  width: 250px;
+  height: 250px;
+  background: var(--glow-lily);
+  bottom: 15%;
+  left: 10%;
+  animation: float 9s ease-in-out infinite reverse;
+}
+
+.lights--rsvp::before {
+  width: 280px;
+  height: 280px;
+  background: var(--glow-green);
+  bottom: 10%;
+  left: 50%;
+  margin-left: -140px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero-flourish {
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+  margin: 0 auto 1.5rem;
+}
+
+.hero-names {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  font-weight: 500;
+  color: var(--lily);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.hero-tagline {
+  font-size: 1.1rem;
+  color: var(--white-soft);
+  opacity: 0.9;
+  margin: 0 0 1rem;
+  font-weight: 400;
+}
+
+.intro-text {
+  color: var(--white-soft);
+  font-size: 1rem;
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
+}
+
+.intro-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.detail-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 var(--glass-highlight);
+}
+
+.detail-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-green);
+  margin-bottom: 0.35rem;
+}
+
+.detail-value {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--lily);
+  margin: 0;
+}
+
+.scroll-hint {
+  font-size: 0.85rem;
+  color: var(--white-soft);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.section-flourish {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+  margin: 0 auto 1.25rem;
+}
+
+.panel-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 4vw, 1.85rem);
+  font-weight: 500;
+  color: var(--lily);
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* —— Gallery (panel 2) —— */
+.gallery-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--glass-highlight);
+}
+
+.slider {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  max-height: 52vh;
+  background: var(--black-soft);
+}
+
+.slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slider-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--glass-border);
+}
+
+.slider-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--lily);
+  background: rgba(61, 92, 61, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.slider-btn:hover {
+  background: var(--accent-green);
+  color: var(--black);
+  box-shadow: 0 0 20px var(--glow-green);
+}
+
+.slider-counter {
+  font-size: 0.9rem;
+  color: var(--white-soft);
+  min-width: 4ch;
+}
+
+.scroll-hint {
+  margin-top: 1.5rem;
+}
+
+/* —— RSVP form —— */
+.rsvp-intro {
+  color: var(--white-soft);
+  font-size: 0.95rem;
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+.rsvp-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.rsvp-form label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--lily);
+  margin-bottom: 0.5rem;
+}
+
+.label-hint {
+  font-weight: 300;
+  color: var(--white-soft);
+  opacity: 0.8;
+}
+
+.rsvp-form input[type="text"] {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(26, 26, 26, 0.6);
+  border: 1px solid var(--glass-border);
+  color: var(--white);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rsvp-form input:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 2px rgba(61, 92, 61, 0.25);
+}
+
+.guest-names {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.guest-input {
+  width: 100%;
+}
+
+.btn-add-guest {
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--accent-green);
+  background: none;
+  border: 1px dashed var(--glass-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-add-guest:hover {
+  background: rgba(61, 92, 61, 0.15);
+  border-color: var(--accent-green);
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.9rem 1.5rem;
+  background: var(--dark-green-mid);
+  color: var(--lily);
+  border: 1px solid var(--accent-green);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.btn-submit:hover {
+  background: var(--accent-green);
+  color: var(--black);
+  box-shadow: 0 0 24px var(--glow-green);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.rsvp-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  min-height: 1.4em;
+}
+
+.rsvp-message.success {
+  color: #7cb87c;
+}
+
+.rsvp-message.error {
+  color: #c75a5a;
+}
+
+@media (max-width: 420px) {
+  .intro-details {
+    grid-template-columns: 1fr;
+  }
+}
