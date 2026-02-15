@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roman & Vane — Wedding</title>
+  <title>Vanesa & Roman— Wedding</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260215-2" />
 </head>
 <body>
   <!-- Password gate -->
@@ -15,11 +15,11 @@
     <div class="lights lights--gate"></div>
     <div class="gate-content gate-content--glass">
       <div class="gate-flourish"></div>
-      <h1 class="gate-title">Roman & Vane</h1>
-      <p class="gate-subtitle">You're invited</p>
+      <h1 class="gate-title">Vanesa & Roman</h1>
+      <p class="gate-subtitle">Sign in to view the invitation</p>
       <form id="login-form" class="login-form" autocomplete="off">
-        <input type="password" id="password" placeholder="Enter password" autocomplete="off" required />
-        <button type="submit">Enter</button>
+        <input type="password" id="login-password" placeholder="Enter account password" autocomplete="current-password" required />
+        <button type="submit" id="login-btn">Sign in</button>
       </form>
       <p id="gate-error" class="gate-error" aria-live="polite"></p>
     </div>
@@ -28,27 +28,45 @@
 
   <!-- Main: 3 full-page panels -->
   <main id="main" class="main hidden">
+    <div class="main-bg" aria-hidden="true"></div>
     <div class="panels">
       <!-- Panel 1: Intro -->
       <section id="panel-intro" class="panel panel--intro">
         <div class="lights lights--panel"></div>
         <div class="panel-bg"></div>
-        <div class="panel-content panel-content--glass">
-          <div class="hero-flourish"></div>
-          <h1 class="hero-names">Roman & Vane</h1>
-          <p class="hero-tagline">We're getting married</p>
-          <p class="intro-text">We're so excited to celebrate our marriage with you. Join us for our wedding in Guadalajara.</p>
-          <div class="intro-details">
-            <div class="detail-card detail-card--glass">
-              <span class="detail-label">When</span>
-              <p class="detail-value">June 5<sup>th</sup></p>
+        <div class="intro-carousel">
+          <div class="intro-track">
+            <div class="intro-page">
+              <div class="panel-content panel-content--glass">
+                <div class="hero-flourish"></div>
+                <h1 class="hero-names">Vanesa & Roman</h1>
+                <p class="hero-tagline">We're getting married!!!</p>
+                <p class="intro-text">We're so excited to celebrate our marriage with you. Join us for our wedding in Mexico.</p>
+                <div class="intro-details">
+                  <div class="detail-card detail-card--glass">
+                    <span class="detail-label">When</span>
+                    <p class="detail-value">June 5<sup>th</sup> 2026</p>
+                  </div>
+                  <div class="detail-card detail-card--glass detail-card--location">
+                    <span class="detail-label">Where</span>
+                    <p class="detail-value detail-value--location"><a class="detail-link" href="https://www.casapedroloza.com/" target="_blank" rel="noopener noreferrer">Casa Pedro Loza</a>, Guadalajara, Jalisco</p>
+                  </div>
+                </div>
+                <div class="attire-note attire-note--glass">
+                  <span class="attire-label">Dress code</span>
+                  <p class="attire-value">Evening Cocktail Attire</p>
+                </div>
+                <button type="button" id="open-itinerary" class="btn-load-invite">See itinerary</button>
+                <p class="scroll-hint">Scroll to see our moments</p>
+              </div>
             </div>
-            <div class="detail-card detail-card--glass">
-              <span class="detail-label">Where</span>
-              <p class="detail-value">Guadalajara</p>
+            <div class="intro-page">
+              <div class="panel-content panel-content--glass panel-content--itinerary">
+                <h2 class="panel-title">Itinerary under construction</h2>
+                <button type="button" id="close-itinerary" class="btn-load-invite">Back</button>
+              </div>
             </div>
           </div>
-          <p class="scroll-hint">Scroll to see our moments</p>
         </div>
       </section>
 
@@ -82,20 +100,20 @@
         <div class="panel-content panel-content--glass panel-content--rsvp">
           <div class="section-flourish"></div>
           <h2 class="panel-title">RSVP</h2>
-          <p class="rsvp-intro">Enter your invite code and the names of everyone in your party.</p>
+          <p class="rsvp-intro">Enter your 6-digit invite code to load your party and confirm attendance.<span class="rsvp-note">Please add your full names.</span></p>
           <form id="rsvp-form" class="rsvp-form">
             <div class="form-group">
-              <label for="rsvp-code">Invite code <span class="label-hint">(8 digits)</span></label>
-              <input type="text" id="rsvp-code" name="code" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" placeholder="00000000" autocomplete="off" required />
+              <label for="rsvp-code">Invite code <span class="label-hint">(6 digits)</span></label>
+              <div class="invite-load-row">
+                <input type="text" id="rsvp-code" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="off" required />
+                <button type="button" id="load-invite" class="btn-load-invite">Load guests</button>
+              </div>
             </div>
             <div class="form-group">
               <label>Guest names</label>
-              <div id="guest-names" class="guest-names">
-                <input type="text" name="guest[]" placeholder="Full name" class="guest-input" />
-              </div>
-              <button type="button" id="add-guest" class="btn-add-guest">+ Add another guest</button>
+              <div id="guest-names" class="guest-names"></div>
             </div>
-            <button type="submit" class="btn-submit" id="rsvp-submit">Send RSVP</button>
+            <button type="submit" class="btn-submit" id="rsvp-submit">Submit RSVP</button>
             <p id="rsvp-message" class="rsvp-message" aria-live="polite"></p>
           </form>
         </div>
@@ -103,6 +121,7 @@
     </div>
   </main>
 
-  <script src="main.js"></script>
+  <script type="module" src="firebase-init.js?v=20260215-5"></script>
+  <script type="module" src="main.js?v=20260215-11"></script>
 </body>
 </html>
